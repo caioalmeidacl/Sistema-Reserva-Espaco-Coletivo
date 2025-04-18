@@ -1,13 +1,14 @@
 import { Router } from "express";
+import { userController } from "../controllers/UserController.js";
 
 const userRoutes = Router();
 
 userRoutes.get('/', (req, res) => {
-	return
+	return userController.getAllUsers(req, res);
 });
 
 userRoutes.post('/', (req, res) => {
-	return
-})
+	return userController.createUser(req, res);
+});
 
 export { userRoutes }

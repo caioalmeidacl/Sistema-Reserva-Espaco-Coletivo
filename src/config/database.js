@@ -1,4 +1,5 @@
-import { Sequelize } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
+
 
 const sequelize = new Sequelize({
 	database: process.env.DB_NAME,
@@ -6,7 +7,10 @@ const sequelize = new Sequelize({
 	password: process.env.DB_PASSWORD,
 	dialect: 'postgres',
 	host: process.env.DB_HOST,
+	define: {
+		schema: process.env.DB_SCHEMA
+	}
 });
 
 
-export { sequelize, Sequelize as SequelizeInstance }
+export { sequelize, DataTypes }
