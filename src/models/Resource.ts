@@ -14,7 +14,8 @@ enum ResourceType {
 	tableName: 'resources',
 	timestamps: true,
 	createdAt: 'created_at',
-	updatedAt: 'updated_at'
+	updatedAt: 'updated_at',
+	schema: process.env.DB_SCHEMA
 })
 
 class Resource extends Model {
@@ -48,6 +49,13 @@ class Resource extends Model {
 		}
 	})
 	capacity!: number;
+
+	@ForeignKey(() => User)
+	@Column({
+		type: DataType.INTEGER,
+		allowNull: false
+	})
+	manager_id!: number;
 
 	@BelongsTo(() => User)
 	manager!: User;

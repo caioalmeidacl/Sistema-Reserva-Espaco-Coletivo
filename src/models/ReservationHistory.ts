@@ -2,13 +2,14 @@ import {
 	Table, Column, Model, DataType, ForeignKey, BelongsTo, HasMany
 } from 'sequelize-typescript';
 import { User } from './User';
-import { Space } from './Space';
+import { Reservation } from './Reservation';
 
 @Table({
 	tableName: 'reservation_history',
 	timestamps: false,
 	createdAt: false,
-	updatedAt: false
+	updatedAt: false,
+	schema: process.env.DB_SCHEMA
 })
 
 class ReservationHistory extends Model {
@@ -19,7 +20,7 @@ class ReservationHistory extends Model {
 	})
 	id!: number;
 
-	@ForeignKey(() => Space)
+	@ForeignKey(() => Reservation)
 	@Column({
 		type: DataType.INTEGER,
 		allowNull: false
@@ -51,8 +52,13 @@ class ReservationHistory extends Model {
 	@BelongsTo(() => User)
 	action_user_details!: User;
 
-	@BelongsTo(() => Space)
-	reservation_details!: Space;
+	@BelongsTo(() => Reservation)
+	reservation_details!: Reservation;
 }
+
+// ReservationHistory.associate = models => {
+// 	ReservationHistory.belongsTo(models.User, { foreignKey: 'action_user' });
+// 	ReservationHistory.belongsTo(models.Reservation, { foreignKey: 'reservation_id' });
+// };
 
 export { ReservationHistory }

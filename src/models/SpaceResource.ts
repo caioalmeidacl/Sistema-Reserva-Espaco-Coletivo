@@ -7,7 +7,8 @@ import { Resource } from './Resource';
 
 @Table({
 	tableName: 'space_resource',
-	timestamps: false
+	timestamps: false,
+	schema: process.env.DB_SCHEMA
 })
 
 class SpaceResource extends Model {

@@ -20,6 +20,7 @@ enum ReservationStatus {
 	tableName: 'reservations',
 	timestamps: true,
 	paranoid: true,
+	schema: process.env.DB_SCHEMA
 })
 
 class Reservation extends Model {
