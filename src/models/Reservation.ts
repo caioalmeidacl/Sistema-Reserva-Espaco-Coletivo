@@ -1,6 +1,8 @@
 import {
-	Table, Column, Model, DataType, ForeignKey, BelongsTo, HasMany
+	Table, Column, Model, DataType, ForeignKey, BelongsTo, HasMany, BeforeDestroy
 } from 'sequelize-typescript';
+import { Sequelize } from 'sequelize';
+import { sequelize } from '../config/database';
 import { User } from './User';
 import { Space } from './Space';
 import { ReservationHistory } from './ReservationHistory';
@@ -8,11 +10,16 @@ import { ReservationHistory } from './ReservationHistory';
 
 enum ReservationStatus {
 	PENDING = 'pending',
+	APPROVED = 'approved',
+	CANCELLED = 'cancelled',
+	COMPLETED = 'completed',
+	REJECTED = 'rejected',
 }
 
 @Table({
 	tableName: 'reservations',
-	timestamps: false,
+	timestamps: true,
+	paranoid: true,
 })
 
 class Reservation extends Model {
@@ -70,6 +77,19 @@ class Reservation extends Model {
 
 	@HasMany(() => ReservationHistory)
 	reservations!: ReservationHistory[]
+
+
+	@BeforeDestroy
+	static async logDeletion(instance: Reservation) {
+		await ReservationHistory.create({
+			reservation_id: instance.id,
+			action: ReservationStatus.CANCELLED,
+			action_date: new Date(),
+			action_user: instance.user_id,
+			details: 'Reservation cancelled',
+			original_data: JSON.stringify(instance.toJSON())
+		});
+	}
 }
 
 export { Reservation, ReservationStatus }
