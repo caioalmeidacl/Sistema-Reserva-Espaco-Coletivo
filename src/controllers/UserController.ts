@@ -12,7 +12,7 @@ class UserController {
 		}
 	}
 
-	async findUser(req: Request, res: Response): Promise<Response> {
+	async findUserById(req: Request, res: Response): Promise<Response> {
 		try {
 			const { id } = req.params;
 			const user = await User.findByPk(id);
@@ -38,13 +38,14 @@ class UserController {
 	async login(req: Request, res: Response): Promise<Response> {
 		try {
 			const { email, password } = req.body;
+
 			const user = await User.findOne({ where: { email, password } });
 
 			if (!user) throw new Error('Email or password is incorrect');
 
 			return res.status(200).json(user);
 		} catch (error: any) {
-			return res.status(400).json({ message: error.message })
+			return res.status(404).json({ message: error.message })
 		}
 	}
 

@@ -8,7 +8,7 @@ userRoutes.get('/', (req, res) => {
 });
 
 userRoutes.get('/:id', (req, res) => {
-	userController.findUser(req, res);
+	userController.findUserById(req, res);
 });
 
 userRoutes.post('/', (req, res) => {
