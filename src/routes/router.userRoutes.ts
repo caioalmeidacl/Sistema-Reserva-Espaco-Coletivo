@@ -1,14 +1,26 @@
-// import { Router } from "express";
-// import { userController } from "../controllers/UserController.js";
-//
-// const userRoutes = Router();
-//
-// userRoutes.get('/', (req, res) => {
-// 	return userController.getAllUsers(req, res);
-// });
-//
-// userRoutes.post('/', (req, res) => {
-// 	return userController.createUser(req, res);
-// });
-//
-// export { userRoutes }
+import { Router } from "express";
+import { userController } from "../controllers";
+
+const userRoutes = Router();
+
+userRoutes.get('/', (req, res) => {
+	userController.findUsers(req, res);
+});
+
+userRoutes.get('/:id', (req, res) => {
+	userController.findUser(req, res);
+});
+
+userRoutes.post('/', (req, res) => {
+	userController.signUp(req, res);
+});
+
+userRoutes.post('/login', (req, res) => {
+	userController.login(req, res);
+});
+
+userRoutes.put('/:id', (req, res) => {
+	userController.updateUser(req, res);
+});
+
+export { userRoutes }
