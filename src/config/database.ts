@@ -15,7 +15,7 @@ async function connect() {
 		await sequelize.authenticate()
 		sequelize.query(`CREATE SCHEMA IF NOT EXISTS ${process.env.DB_SCHEMA}`)
 
-		await sequelize.sync({ force: true })
+		await sequelize.sync({ alter: true })
 		console.log('Connected to the database successfully')
 	} catch (error) {
 		console.error('Unable to connect to the database:', error)

@@ -43,7 +43,7 @@ class UserController {
 
 			if (!user) throw new Error('Email or password is incorrect');
 
-			return res.status(200).json(user);
+			return res.status(200).json({ message: 'Login successful' });
 		} catch (error: any) {
 			return res.status(404).json({ message: error.message })
 		}
